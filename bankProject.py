@@ -1,95 +1,79 @@
-"""
-Rules for deposit :
---->Min deposit amount should be 100
---->Amount should be multiples of 100
---->Max Deposit amount 50k
-Rules for Withdraw :
---->Min WithDraw Amount should be 100
---->Amount should be multiples of 100
---->Withdraw amount should be less than account balance
---->Need to maintain min 500 balance
---->Max Transaction amount should be 50k
---->Max Number of Transactions 3 only
-"""
+import streamlit as st
 
 
 class Bank:
     account_balance = 10000
     withDrawCount = 1
-    def pin_validation(self,count):
-        pin = int(input("Enter your PIN number : "))
-        count = count + 1
-        if(pin == 1234):
-            count = 0
-            obj.showOptions()
+
+    def pin_validation(self):
+        pin = st.text_input("Enter your PIN number:", type="password")
+        if pin == "1234":
+            self.showOptions()
         else:
-            if(count < 4):
-                print("Invalid PIN. Please Try Again")
-                obj.pin_validation(count)
-            else:
-                print("Card Blocked")
+            st.error("Invalid PIN. Please try again.")
 
     def showOptions(self):
-        while True:
-            print("\n 1. Deposit \n 2. WithDraw \n 3. Balance Enquiry \n 0. EXIT")
-            choice = int(input("Enter your choice : "))
+        st.title("Welcome to ABC Bank")
 
-            if (choice == 1):
-                obj.deposit()
+        option = st.radio(
+            "Choose an option",
+            ("Deposit", "Withdraw", "Balance Enquiry", "Exit")
+        )
 
-            elif choice == 2:
-                obj.withdraw()
-            elif choice == 3:
-                obj.balance_enquiry()
-            elif choice == 0:
-                print("Thank You for using ABC Bank. Please visit Again. Have a nice day")
-                exit()
-            else:
-                print("Invalid Choice")
-
-
+        if option == "Deposit":
+            self.deposit()
+        elif option == "Withdraw":
+            self.withdraw()
+        elif option == "Balance Enquiry":
+            self.balance_enquiry()
+        elif option == "Exit":
+            st.write("Thank you for using ABC Bank. Have a nice day.")
+            st.stop()
 
     def deposit(self):
-        deposit_amount = int(input("Enter the deposit amount : "))
-        if(deposit_amount < 100):
-            print("Min Deposit is Rs. 100")
-            obj.deposit()
-        elif(deposit_amount % 100 != 0):
-            print("Deposit amount should be multiples of 100")
-            obj.deposit()
-        elif(deposit_amount > 50000):
-            print("Max Deposit Amount is Rs.50000")
-            obj.deposit()
-        else:
-            self.account_balance = self.account_balance + deposit_amount
-            print("Amount Deposited Successfully")
+        deposit_amount = st.number_input("Enter the deposit amount:", min_value=100, max_value=50000, step=100)
+
+        if deposit_amount:
+            if deposit_amount < 100:
+                st.warning("Min Deposit is Rs. 100")
+            elif deposit_amount % 100 != 0:
+                st.warning("Deposit amount should be in multiples of 100")
+            elif deposit_amount > 50000:
+                st.warning("Max Deposit Amount is Rs. 50,000")
+            else:
+                self.account_balance += deposit_amount
+                st.success(f"Amount Deposited Successfully. Current balance: Rs. {self.account_balance}")
 
     def withdraw(self):
-        if(self.withDrawCount > 3):
-            print("Max Limit for withdraw reached !")
-        else:
-            withdraw_amount = int(input("Enter the amount you wish to withdraw : "))
-            if (withdraw_amount < 100):
-                print("Min WithDraw amount should be 100")
-                obj.withdraw()
-            elif withdraw_amount % 100 != 0:
-                print("Withdraw Amount should be multiples of 100 only")
-                obj.withdraw()
-            elif self.account_balance < withdraw_amount:
-                print("Insufficient Account Balance")
-                obj.withdraw()
-            elif (self.account_balance - withdraw_amount < 500):
-                print("Minimum 500 account balance needed")
-                obj.withdraw()
-            else:
-                self.account_balance = self.account_balance - withdraw_amount
-                print("Money Debited successfully")
-                self.withDrawCount = self.withDrawCount + 1
+        if self.withDrawCount > 3:
+            st.warning("Max Limit for withdrawals reached!")
+            return
 
+        withdraw_amount = st.number_input("Enter the amount you wish to withdraw:", min_value=100, max_value=50000,
+                                          step=100)
+
+        if withdraw_amount:
+            if withdraw_amount < 100:
+                st.warning("Min Withdraw amount is Rs. 100")
+            elif withdraw_amount % 100 != 0:
+                st.warning("Withdraw amount should be in multiples of 100 only")
+            elif self.account_balance < withdraw_amount:
+                st.warning("Insufficient Account Balance")
+            elif (self.account_balance - withdraw_amount) < 500:
+                st.warning("Minimum 500 account balance needed")
+            else:
+                self.account_balance -= withdraw_amount
+                self.withDrawCount += 1
+                st.success(f"Money Debited Successfully. Current balance: Rs. {self.account_balance}")
 
     def balance_enquiry(self):
-        print("Your Balance is : " + str(self.account_balance))
+        st.write(f"Your current balance is: Rs. {self.account_balance}")
 
+
+# Streamlit app layout
 
 obj = Bank()
-obj.pin_validation(1)
+st.title("Bank Login")
+st.write("Please enter your PIN to proceed.")
+obj.pin_validation()
+
