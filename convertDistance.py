@@ -1,0 +1,5 @@
+disFeet = float(input("Enter the distance in feet : "))
+print("Distance in feet : ",disFeet)
+print("Distance in inches : ",float(disFeet * 12))
+print("Distance in yards : ",float(disFeet / 3))
+print("Distance in miles : ",float(disFeet / 5280))
