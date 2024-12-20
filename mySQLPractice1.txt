@@ -1,0 +1,47 @@
+insert into student values(6704,'Kalyan',86,'Hyderabad',99856766,'Male');
+insert into student values(6705,'Raj Kumar',94,'Kolkata',44387766,'Male');
+insert into student values(6706,'Hemanth',93,'Chennai',54323766,'Male');
+insert into student values(6707,'Mohan',78,'Bangalore',99845326,'Male');
+insert into student values(6708,'Mahesh',67,'Mumbai',99823466,'Male');
+insert into student values(6709,'Sita',70,'Delhi',99887721,'Female');
+insert into student values(6710,'Rakesh',95,'Kolkata',99883366,'Male');
+insert into student values(6711,'Gita',93,'Hyderabad',99887711,'Female');
+insert into student values(6712,'Sam',90,'Hyderabad',99887766,'Female');
+insert into student values(6713,'Divya',80,'Pune',99437766,'Female');
+
+
+-----------------------------------------------------------------------------------------------------
+
+
+1. Display student details whose city is Pune
+--->select *from student where city = "Pune";
+
+2. Display student details whose city is hyderabad or pune
+--->select *from student where city = "Hyderabad" or city = "Pune"
+
+3. Display female students from hyderabad and male students from pune and all the students from bangalore
+--->select *from student WHERE (city = "Hyderabad" AND gender = "Male") OR (city = "Pune" AND gender = "Male") OR (city = "Bangalore");
+
+4. Display student details
+--->From hyderabad City, male students who scored more than 70 and female students who scored more than 50
+--->from Pune, only male students
+--->Do not take students from bangalore
+Query--->select *from student WHERE (city = "Hyderabad" and gender = "Male" and marks > 70) OR (city = "Hyderabad" and gender = "Female" and marks > 50) OR (city = "Pune" and gender = "Male");
+
+5. Display student details whose score is between 50 and 80 and city is hyd or bangalore
+--->select * from student where score between 50 and 80 and city = "Hyderabad" or city = "Bangalore";
+
+6. Display student details whose name starts with S and ends with A
+--->select * from student where sName like 'S%a';
+
+7. Display number of students in each city
+--->select city,count(city) as 'number_of_students' from student GROUP BY city;
+
+8. Best city in education based on score
+--->select city from student group by city order by avg(marks) DESC LIMIT 1; 
+
+9. Top score in each city
+--->select city, max(marks) as 'top_score' from student GROUP BY city;
+
+10. Display topper details in hyderabad
+--->select *from student where city = "Hyderabad" ORDER BY marks DESC LIMIT 1;
