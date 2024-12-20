@@ -1,0 +1,94 @@
+create table salespeople(
+	snum INT NOT NULL,
+	sname varchar(30) NOT NULL,
+	city varchar(30) NOT NULL,
+	comm DECIMAL(4,2) NOT NULL,
+	PRIMARY KEY(snum)
+	);
+
+-----------------------------------------------------------------------------------------
+
+insert into salespeople values(1001,'Peel','London',0.12);
+insert into salespeople values(1002,'Serres','San Jose',0.13);
+insert into salespeople values(1003,'AxelRod','New York',0.10);
+insert into salespeople values(1004,'Motika','London',0.11);
+insert into salespeople values(1005,'Fran','London',0.26);
+insert into salespeople values(1007,'Rifkin','Barcelona',0.15);
+
+
+------------------------------------------------------------------------------------------
+
+		+------+---------+-----------+------+
+		| snum | sname   | city      | comm |
+		+------+---------+-----------+------+
+		| 1001 | Peel    | London    | 0.12 |
+		| 1002 | Serres  | San Jose  | 0.13 |
+		| 1003 | AxelRod | New York  | 0.10 |
+		| 1004 | Motika  | London    | 0.11 |
+		| 1005 | Fran    | London    | 0.26 |
+		| 1007 | Rifkin  | Barcelona | 0.15 |
+		+------+---------+-----------+------+
+
+-------------------------------------------------------------------------------------------
+
+
+create table customer(
+	cnum INT NOT NULL,
+	cname varchar(30) NOT NULL,
+	city varchar(30) NOT NULL,
+	rating INT NOT NULL,
+	snum INT NOT NULL,
+	PRIMARY KEY (cnum),
+	FOREIGN KEY (snum) REFERENCES salespeople(snum));
+
+
+------------------------------------------------------------------------------------------------
+
+
+insert into customer values(2001,'Hoffman','London',100,1001);
+insert into customer values(2002,'Giovanni','Rome',200,1003);
+insert into customer values(2003,'Liu','San Jose',200,1002);
+insert into customer values(2004,'Grass','Berlin',300,1002);
+insert into customer values(2006,'Clemens','London',100,1001);
+insert into customer values(2008,'Cisneros','San Jose',300,1007);
+insert into customer values(2007,'Pereira','Rome',100,1004);
+
+---------------------------------------------------------------------------------------------------
+
+		+------+----------+----------+--------+------+
+		| cnum | cname    | city     | rating | snum |
+		+------+----------+----------+--------+------+
+		| 2001 | Hoffman  | London   |    100 | 1001 |
+		| 2002 | Giovanni | Rome     |    200 | 1003 |
+		| 2003 | Liu      | San Jose |    200 | 1002 |
+		| 2004 | Grass    | Berlin   |    300 | 1002 |
+		| 2006 | Clemens  | London   |    100 | 1001 |
+		| 2007 | Pereira  | Rome     |    100 | 1004 |
+		| 2008 | Cisneros | San Jose |    300 | 1007 |
+		+------+----------+----------+--------+------+
+
+-----------------------------------------------------------------------------------------------------------
+
+
+1. Find number of customers for each salesperson
+---> select sname, count(cname) from 
+
+2. Best SalesPerson based on customer rating
+
+
+3. To whom we need to fire from salespeople team
+
+
+4. Who has less customer rating
+
+
+5. Display salespeople who has customers from same city
+
+
+6. Find the names and numbers of all salespeople who had more than one customer
+
+
+7. Find customers in San Jose who have a rating above 200
+
+
+8. List all customers with ratings above San Jose's avg
