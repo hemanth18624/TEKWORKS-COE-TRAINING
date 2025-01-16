@@ -71,24 +71,56 @@ insert into customer values(2007,'Pereira','Rome',100,1004);
 
 
 1. Find number of customers for each salesperson
----> select sname, count(cname) from 
+---> select s.snum,s.sname,COUNT(c.cnum) as customer_count FROM salesperson s LEFT JOIN customer c ON s.snum = c.snum GROUP BY s.snum,s.sname ORDER BY s.snum
 
 2. Best SalesPerson based on customer rating
+---> SELECT s.snum, s.sname, SUM(c.rating) AS total_rating
+FROM salesperson s
+JOIN customer c ON s.snum = c.snum
+GROUP BY s.snum, s.sname
+ORDER BY total_rating DESC
+LIMIT 1;
 
 
 3. To whom we need to fire from salespeople team
+---> SELECT s.snum, s.sname, SUM(c.rating) AS total_rating
+FROM salesperson s
+LEFT JOIN customer c ON s.snum = c.snum
+GROUP BY s.snum, s.sname
+ORDER BY total_rating ASC
+LIMIT 1;
 
 
 4. Who has less customer rating
 
 
 5. Display salespeople who has customers from same city
+---> SELECT DISTINCT s.snum, s.sname, s.city AS salesperson_city
+FROM salesperson s
+JOIN customer c ON s.snum = c.snum
+WHERE s.city = c.city;
 
 
 6. Find the names and numbers of all salespeople who had more than one customer
+---> SELECT s.snum, s.sname, COUNT(c.cnum) AS customer_count
+FROM salesperson s
+JOIN customer c ON s.snum = c.snum
+GROUP BY s.snum, s.sname
+HAVING COUNT(c.cnum) > 1;
 
 
 7. Find customers in San Jose who have a rating above 200
+SELECT c.cnum, c.cname, c.city, c.rating
+FROM customer c
+WHERE c.city = 'San Jose' AND c.rating > 200;
 
 
 8. List all customers with ratings above San Jose's avg
+---> SELECT c.cnum, c.cname, c.city, c.rating
+FROM customer c
+WHERE c.rating > (
+    SELECT AVG(c2.rating)
+    FROM customer c2
+    WHERE c2.city = 'San Jose'
+);
+
